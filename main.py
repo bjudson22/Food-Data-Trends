@@ -10,14 +10,26 @@ options = Options()
 options.set_preference('profile', profile_PATH)
 service = Service("/home/blake/PycharmProjects/Selenium/venv/geckodriver")
 
-driver = Firefox(service=service, options=options)
+driver = Firefox(service=service, options=options) # be sure to have the selected webdriver downloads and assigned to your
+# path before you go any further. See the selenium documentation for details
 
-driver.get("https://search.brave.com/")  # insert desired website here.
+driver.get("https://www.indexmundi.com/commodities/?commodity=beef&months=60")  # insert desired website here.
 
-search = driver.find_element(By.ID, "searchbox")  # This is the ID of the searchbox for brave search.
-# This will probably change if you select a different search engine.
-search.send_keys("")  # select your chosen search criteria
-search.send_keys(Keys.RETURN)
+search = driver.find_element(By.ID, "gvPrices")
+print(search.text)
 
-time.sleep(10)
+parser = []
+stringHold = []
+
+for char in search.text:
+    if char == '\n':
+        parser.append(stringHold)
+        stringHold = []
+        continue
+    stringHold += char
+
+#  search.send_keys("")  # select your chosen search criteria
+#  search.send_keys(Keys.RETURN)
+
+#  time.sleep(10)
 driver.quit()
